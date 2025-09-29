@@ -1,0 +1,29 @@
+Private Agent Platform Documentation
+
+This is a sample document for testing the Private Agent Platform. The platform is designed to provide a local, private alternative to cloud-based AI assistants.
+
+Key Features:
+1. Local LLM Processing: Uses Ollama to run large language models locally
+2. Vector Storage: ChromaDB provides persistent vector storage for documents
+3. RAG Capabilities: Retrieval-Augmented Generation for context-aware responses
+4. Document Upload: Support for PDF, DOCX, and TXT files
+5. Memory Management: Store and retrieve conversation history
+6. Agent Management: Create and configure custom agents
+
+Technical Stack:
+- Backend: FastAPI with Python 3.11+
+- Frontend: React with TypeScript and Tailwind CSS
+- Vector Database: ChromaDB with local persistence
+- LLM Host: Ollama with configurable models
+- Embeddings: sentence-transformers for local embedding generation
+
+Security and Privacy:
+All data processing happens locally on your machine. No data is sent to external services except for the Ollama API calls to your local Ollama server. This ensures complete privacy and control over your data.
+
+Installation Requirements:
+- Docker and Docker Compose
+- Ollama installed locally
+- Sufficient RAM for the chosen model (8GB+ recommended)
+- Optional: GPU for faster inference
+
+This document serves as a test case for the document ingestion and retrieval capabilities of the Private Agent Platform.
