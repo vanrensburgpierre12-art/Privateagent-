@@ -5,7 +5,7 @@ import requests
 import json
 import time
 
-API_BASE = "http://localhost:8000/api"
+API_BASE = "http://34.58.166.165:8000/api"
 
 def upload_sample_document():
     """Upload the sample document."""
