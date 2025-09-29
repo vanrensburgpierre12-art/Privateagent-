@@ -38,6 +38,7 @@ class EmbeddingGenerator:
     def _ollama_embed_one(self, client: httpx.Client, text: str) -> List[float]:
         """Request a single embedding vector from Ollama (synchronous)."""
         try:
+            logger.info(f"Requesting embedding from {settings.OLLAMA_URL}/api/embeddings with model {self.model_name}")
             response = client.post(
                 f"{settings.OLLAMA_URL}/api/embeddings",
                 json={"model": self.model_name, "input": text},
@@ -49,6 +50,12 @@ class EmbeddingGenerator:
             if not vector:
                 raise Exception("No embedding returned from Ollama")
             return vector
+        except httpx.ConnectError as e:
+            logger.error(f"Failed to connect to Ollama at {settings.OLLAMA_URL}: {e}")
+            raise Exception(f"Cannot connect to Ollama server at {settings.OLLAMA_URL}: {str(e)}")
+        except httpx.TimeoutException as e:
+            logger.error(f"Ollama embedding request timed out: {e}")
+            raise Exception(f"Ollama embedding request timed out: {str(e)}")
         except Exception as e:
             logger.error(f"Ollama embedding failed: {e}")
             raise Exception(f"Embedding generation failed: {str(e)}")

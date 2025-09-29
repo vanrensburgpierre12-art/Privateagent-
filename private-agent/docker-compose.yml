@@ -6,12 +6,12 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11535}
-      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.1:8b-instruct}
+      - OLLAMA_URL=${OLLAMA_URL:-http://34.58.166.165:11535}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama2:latest}
       - CHROMA_PERSIST_DIR=/app/chroma_persist
-      - EMBEDDINGS_PROVIDER=${EMBEDDINGS_PROVIDER:-ollama}
+      - EMBEDDINGS_PROVIDER=${EMBEDDINGS_PROVIDER:-sentence_transformers}
       - OLLAMA_EMBEDDING_MODEL=${OLLAMA_EMBEDDING_MODEL:-nomic-embed-text}
-      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-nomic-embed-text}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
       - MAX_CONTEXT_TOKENS=${MAX_CONTEXT_TOKENS:-4000}
       - CHUNK_SIZE=${CHUNK_SIZE:-500}
       - CHUNK_OVERLAP=${CHUNK_OVERLAP:-50}
