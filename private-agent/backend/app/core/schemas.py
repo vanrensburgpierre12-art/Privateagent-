@@ -33,6 +33,8 @@ class MemoryItem(BaseModel):
 
 class AgentConfig(BaseModel):
     """Schema for agent configuration."""
+    model_config = {"protected_namespaces": ()}
+    
     agent_id: str
     name: str
     system_prompt: str

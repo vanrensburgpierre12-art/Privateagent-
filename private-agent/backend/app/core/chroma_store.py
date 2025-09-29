@@ -9,6 +9,9 @@ from langchain.text_splitter import CharacterTextSplitter
 from ..config import settings
 from .embeddings import embedding_generator
 
+# Disable ChromaDB telemetry
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+
 logger = logging.getLogger(__name__)
 
 class ChromaStore:
@@ -26,7 +29,8 @@ class ChromaStore:
             path=self.persist_directory,
             settings=Settings(
                 anonymized_telemetry=False,
-                allow_reset=True
+                allow_reset=True,
+                is_persistent=True
             )
         )
         

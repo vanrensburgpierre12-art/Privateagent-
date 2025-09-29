@@ -8,6 +8,8 @@ from ..core.schemas import AgentConfig
 router = APIRouter()
 
 class CreateAgentRequest(BaseModel):
+    model_config = {"protected_namespaces": ()}
+    
     agent_id: str
     name: str
     system_prompt: str
