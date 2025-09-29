@@ -7,14 +7,18 @@ services:
       - "8000:8000"
     environment:
       - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11535}
-      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama-3.2-70b}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.1:8b-instruct}
       - CHROMA_PERSIST_DIR=/app/chroma_persist
-      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      - EMBEDDINGS_PROVIDER=${EMBEDDINGS_PROVIDER:-ollama}
+      - OLLAMA_EMBEDDING_MODEL=${OLLAMA_EMBEDDING_MODEL:-nomic-embed-text}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-nomic-embed-text}
       - MAX_CONTEXT_TOKENS=${MAX_CONTEXT_TOKENS:-4000}
       - CHUNK_SIZE=${CHUNK_SIZE:-500}
       - CHUNK_OVERLAP=${CHUNK_OVERLAP:-50}
       - CORS_ORIGINS=http://34.58.166.165:5173,http://34.58.166.165:3000
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./data/chroma:/app/chroma_persist
     depends_on:

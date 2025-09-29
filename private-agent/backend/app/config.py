@@ -18,6 +18,13 @@ class Settings:
     
     # Embedding Model Configuration
     EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+    # Provider can be: "sentence_transformers" or "ollama"
+    EMBEDDINGS_PROVIDER: str = os.getenv("EMBEDDINGS_PROVIDER", "sentence_transformers")
+    # Default Ollama embedding model name
+    OLLAMA_EMBEDDING_MODEL: str = os.getenv(
+        "OLLAMA_EMBEDDING_MODEL",
+        os.getenv("EMBEDDING_MODEL", "nomic-embed-text")
+    )
     
     # Application Configuration
     MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", "4000"))
