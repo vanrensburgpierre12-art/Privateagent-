@@ -13,7 +13,7 @@ services:
       - MAX_CONTEXT_TOKENS=${MAX_CONTEXT_TOKENS:-4000}
       - CHUNK_SIZE=${CHUNK_SIZE:-500}
       - CHUNK_OVERLAP=${CHUNK_OVERLAP:-50}
-      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://34.58.166.165:5173
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
     volumes:
       - ./data/chroma:/app/chroma_persist
@@ -27,7 +27,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://localhost:8000
+      - VITE_API_URL=http://34.58.166.165:8000
     networks:
       - app-network
 
