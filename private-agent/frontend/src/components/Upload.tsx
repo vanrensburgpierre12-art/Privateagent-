@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Upload as UploadIcon, FileText, CheckCircle, AlertCircle } from 'lucide-react'
+import { config } from '../config'
 
 interface UploadResult {
   message: string
@@ -35,7 +36,7 @@ const Upload: React.FC = () => {
       const formData = new FormData()
       formData.append('file', file)
 
-      const response = await axios.post('/api/upload', formData, {
+      const response = await axios.post(`${config.apiBaseUrl}/api/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -60,7 +61,7 @@ const Upload: React.FC = () => {
     setError(null)
 
     try {
-      const response = await axios.post('/api/upload-text', null, {
+      const response = await axios.post(`${config.apiBaseUrl}/api/upload-text`, null, {
         params: {
           text: textInput,
           filename: 'text_input.txt'
