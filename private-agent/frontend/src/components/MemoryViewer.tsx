@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Database, Trash2, RefreshCw, AlertCircle } from 'lucide-react'
+import { config } from '../config'
 
 interface MemoryItem {
   id: string
@@ -32,10 +33,14 @@ const MemoryViewer: React.FC = () => {
     setError(null)
     
     try {
-      const response = await axios.get('/api/memory')
-      setMemories(response.data)
+      const response = await axios.get(`${config.apiBaseUrl}/api/memory`)
+      // Ensure response.data is an array
+      const memoriesData = Array.isArray(response.data) ? response.data : []
+      setMemories(memoriesData)
     } catch (error: any) {
       setError(error.response?.data?.detail || 'Failed to load memories')
+      // Set empty array as fallback
+      setMemories([])
     } finally {
       setIsLoading(false)
     }
@@ -44,7 +49,7 @@ const MemoryViewer: React.FC = () => {
   const deleteMemory = async (id: string) => {
     setDeletingId(id)
     try {
-      await axios.delete(`/api/memory/${id}`)
+      await axios.delete(`${config.apiBaseUrl}/api/memory/${id}`)
       setMemories(prev => prev.filter(memory => memory.id !== id))
     } catch (error: any) {
       setError(error.response?.data?.detail || 'Failed to delete memory')
@@ -60,7 +65,7 @@ const MemoryViewer: React.FC = () => {
 
     setIsLoading(true)
     try {
-      await axios.delete('/api/memory')
+      await axios.delete(`${config.apiBaseUrl}/api/memory`)
       setMemories([])
     } catch (error: any) {
       setError(error.response?.data?.detail || 'Failed to clear memories')

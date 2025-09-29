@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { Send, Bot, User } from 'lucide-react'
+import { config } from '../config'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -41,10 +42,14 @@ const Chat: React.FC = () => {
 
   const loadAgents = async () => {
     try {
-      const response = await axios.get('/api/agents')
-      setAgents(response.data)
+      const response = await axios.get(`${config.apiBaseUrl}/api/agents`)
+      // Ensure response.data is an array
+      const agentsData = Array.isArray(response.data) ? response.data : []
+      setAgents(agentsData)
     } catch (error) {
       console.error('Failed to load agents:', error)
+      // Set empty array as fallback
+      setAgents([])
     }
   }
 
@@ -67,7 +72,7 @@ const Chat: React.FC = () => {
         content: msg.content
       }))
 
-      const response = await axios.post('/api/chat', {
+      const response = await axios.post(`${config.apiBaseUrl}/api/chat`, {
         agent_id: selectedAgent,
         message: input,
         history
@@ -114,11 +119,15 @@ const Chat: React.FC = () => {
           onChange={(e) => setSelectedAgent(e.target.value)}
           className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         >
-          {agents.map((agent) => (
-            <option key={agent.agent_id} value={agent.agent_id}>
-              {agent.name}
-            </option>
-          ))}
+          {agents.length === 0 ? (
+            <option value="default">Default Assistant</option>
+          ) : (
+            agents.map((agent) => (
+              <option key={agent.agent_id} value={agent.agent_id}>
+                {agent.name}
+              </option>
+            ))
+          )}
         </select>
       </div>
 
@@ -161,7 +170,7 @@ const Chat: React.FC = () => {
               </div>
               
               {/* Sources */}
-              {message.sources && message.sources.length > 0 && (
+              {message.sources && Array.isArray(message.sources) && message.sources.length > 0 && (
                 <div className="mt-2 pt-2 border-t border-gray-300">
                   <p className="text-xs font-medium mb-1">SOURCES:</p>
                   {message.sources.map((source, idx) => (
