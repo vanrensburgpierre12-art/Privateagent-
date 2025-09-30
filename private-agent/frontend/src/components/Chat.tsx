@@ -33,6 +33,9 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     loadAgents()
+  }, [])
+
+  useEffect(() => {
     scrollToBottom()
   }, [messages])
 
@@ -42,9 +45,12 @@ const Chat: React.FC = () => {
 
   const loadAgents = async () => {
     try {
+      console.log('Loading agents from:', `${config.apiBaseUrl}/api/agents`)
       const response = await axios.get(`${config.apiBaseUrl}/api/agents`)
+      console.log('Agents response:', response.data)
       // Ensure response.data is an array
       const agentsData = Array.isArray(response.data) ? response.data : []
+      console.log('Processed agents:', agentsData)
       setAgents(agentsData)
     } catch (error) {
       console.error('Failed to load agents:', error)
@@ -119,15 +125,12 @@ const Chat: React.FC = () => {
           onChange={(e) => setSelectedAgent(e.target.value)}
           className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         >
-          {agents.length === 0 ? (
-            <option value="default">Default Assistant</option>
-          ) : (
-            agents.map((agent) => (
-              <option key={agent.agent_id} value={agent.agent_id}>
-                {agent.name}
-              </option>
-            ))
-          )}
+          <option value="default">Default Assistant</option>
+          {agents.map((agent) => (
+            <option key={agent.agent_id} value={agent.agent_id}>
+              {agent.name}
+            </option>
+          ))}
         </select>
       </div>
 
