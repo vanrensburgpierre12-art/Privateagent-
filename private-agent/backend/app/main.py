@@ -37,6 +37,27 @@ app.include_router(agents.router, prefix="/api", tags=["agents"])
 app.include_router(health.router, prefix="/api", tags=["health"])
 app.include_router(memory.router, prefix="/api", tags=["memory"])
 
+# Add explicit OPTIONS handlers for CORS preflight requests
+@app.options("/api/chat")
+async def options_chat():
+    """Handle CORS preflight requests for chat endpoint."""
+    return {"message": "ok"}
+
+@app.options("/api/upload")
+async def options_upload():
+    """Handle CORS preflight requests for upload endpoint."""
+    return {"message": "ok"}
+
+@app.options("/api/agents")
+async def options_agents():
+    """Handle CORS preflight requests for agents endpoint."""
+    return {"message": "ok"}
+
+@app.options("/api/memory")
+async def options_memory():
+    """Handle CORS preflight requests for memory endpoint."""
+    return {"message": "ok"}
+
 @app.get("/")
 async def root():
     """Root endpoint."""
