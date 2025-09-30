@@ -32,7 +32,10 @@ class Settings:
     CHUNK_OVERLAP: int = int(os.getenv("CHUNK_OVERLAP", "50"))
     
     # CORS Configuration
-    CORS_ORIGINS: List[str] = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+    CORS_ORIGINS: List[str] = [
+        origin.strip() for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+        if origin.strip()
+    ]
     
     # Logging
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
