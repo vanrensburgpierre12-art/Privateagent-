@@ -6,6 +6,8 @@ const API_BASE_URL =
     ? `${window.location.protocol}//${window.location.hostname}:8000`
     : 'http://localhost:8000')
 
+console.log('API Base URL:', API_BASE_URL)
+
 export const config = {
   apiBaseUrl: API_BASE_URL,
 }
